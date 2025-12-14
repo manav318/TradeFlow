@@ -1,0 +1,34 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: tradeflow-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: tradeflow_mvp
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  redpanda:
+    image: redpandadata/redpanda:latest
+    container_name: tradeflow-kafka
+    command:
+      - redpanda
+      - start
+      - --overprovisioned
+      - --memory=1G
+      - --reserve-memory=0M
+      - --smp=1
+      - --node-id=0
+      - --check=false
+      - --kafka-addr=PLAINTEXT://0.0.0.0:9092
+    ports:
+      - "9092:9092"
+      - "8081:8081"
+
+volumes:
+  pgdata:

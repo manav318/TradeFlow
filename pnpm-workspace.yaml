@@ -1,0 +1,8 @@
+packages:
+  - backend
+  - worker
+  - frontend
+
+catalogs:
+  prisma:
+    prisma: 7.1.0
