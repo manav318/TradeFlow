@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      kafkajs:
+        specifier: ^2.2.4
+        version: 2.2.4
       rimraf:
         specifier: ^6.1.2
         version: 6.1.2
