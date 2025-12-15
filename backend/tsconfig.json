@@ -4,5 +4,9 @@
     "outDir": "dist",
     "rootDir": "src",
     "module":"commonjs"
-  }
+  },
+  "exclude": [
+    "node_modules",
+    "prisma/seed"
+  ]
 }

@@ -8,12 +8,14 @@
     "start": "node dist/main.js",
     "prisma:migrate": "prisma migrate dev",
     "prisma:generate": "prisma generate",
-    "seed": "ts-node prisma/seed/index.ts"
+    "prisma:format": "prisma format",
+    "seed": "ts-node -P tsconfig.seed.json prisma/seed/index.ts"
   },
   "packageManager": "pnpm@10.25.0",
   "dependencies": {
     "@prisma/adapter-pg": "^7.1.0",
     "@prisma/client": "^5.19.1",
+    "axios": "^1.13.2",
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
@@ -23,6 +25,7 @@
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^25.0.2",
     "@types/pg": "^8.16.0",
     "prisma": "^5.19.1",
