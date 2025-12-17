@@ -1,3 +1,4 @@
+import { markExecutionRunning } from "./execution/updateStatus";
 import { consumer } from "./kafka/consumer";
 
 async function startWorker() {
@@ -7,19 +8,22 @@ async function startWorker() {
   console.log("Kafka consumer connected");
 
   await consumer.subscribe({
-    topic: "workflow-triggers",
-    fromBeginning: false,
-  });
+  topic: "workflow-executions",
+  fromBeginning: false,
+});
 
-  console.log("Subscribed to workflow-triggers");
+
+  console.log("Subscribed to workflow-executions");
 
   await consumer.run({
     eachMessage: async ({ message }) => {
-      if (!message.value) return;
+  if (!message.value) return;
 
-      const payload = JSON.parse(message.value.toString());
-      console.log("Received trigger:", payload);
-    },
+  const payload = JSON.parse(message.value.toString());
+  console.log("Execution received:", payload);
+  await markExecutionRunning(payload.executionId);
+}
+
   });
 }
 

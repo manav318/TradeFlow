@@ -3,6 +3,9 @@ import { ensureTopics } from "./kafka/admin";
 import { initProducer } from './kafka/producer';
 import { publishWorkflowTrigger } from './kafka/publishTrigger';
 import crypto from 'crypto';
+import workflow from './routes/workflow';
+import 'dotenv/config';
+
 
 async function bootstrap() {
 
@@ -12,7 +15,11 @@ async function bootstrap() {
 
   await initProducer();
   
-  const app = express()
+  const app = express();
+
+  app.use(express.json());
+
+  app.use(workflow);
 
   app.get('/', (_, res) => {
   res.send('Backend running')
