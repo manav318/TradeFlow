@@ -1,4 +1,6 @@
-import { markExecutionRunning } from "./execution/updateStatus";
+import { ExecutionContext } from './utils/types';
+import { runWorkflow } from "./execution/runner";
+import { markExecutionFailed, markExecutionRunning } from "./execution/updateStatus";
 import { consumer } from "./kafka/consumer";
 
 async function startWorker() {
@@ -22,6 +24,24 @@ async function startWorker() {
   const payload = JSON.parse(message.value.toString());
   console.log("Execution received:", payload);
   await markExecutionRunning(payload.executionId);
+
+  try{
+      const {nodeIds,adjacency,executionOrder}=await runWorkflow(payload);
+
+      const context={
+        executionId:payload.executionId,
+        userId: payload.userId,
+      } as ExecutionContext;
+
+      console.log(nodeIds,adjacency,executionOrder);
+
+  }
+  catch(err)
+  {
+
+    console.log(err);
+    await markExecutionFailed(payload.executionId);
+  }
 }
 
   });
